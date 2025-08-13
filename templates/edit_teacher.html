@@ -30,7 +30,9 @@
 							<input type="hidden" name="teacherid" id="teacherid" value="{{teacher.teacher_id}}" />						
 							<input type="hidden" name="action" id="action" value="updateTeacher" />
 							<input type="submit" name="save" id="save" class="btn btn-info" value="Save" />
+							<a href="{{ url_for('teacher') }}" class="btn btn-secondary">Cancel</a>
 						</div>
+						
 					
 					</form>
 				{% endfor %}						

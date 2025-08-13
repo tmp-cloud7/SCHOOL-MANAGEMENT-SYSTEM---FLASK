@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, g
 import pymysql
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+
 from datetime import date
 import os
 
@@ -328,6 +330,64 @@ def student():
 
         return render_template("student.html", students=students, classes=classes, sections=sections)
     return redirect(url_for('login'))
+
+@app.route('/create_student', methods=['GET'])
+def create_student():
+    if 'loggedin' not in session:
+        return redirect(url_for('login'))
+
+    db = get_db()
+    cursor = db.cursor()
+
+    # Fetch class list
+    cursor.execute("SELECT * FROM sms_classes")
+    classes = cursor.fetchall()
+
+    # Fetch section list if table exists
+    cursor.execute("SELECT * FROM sms_section")
+    sections = cursor.fetchall()
+    
+    return render_template('create_student.html', classes=classes, sections=sections)
+
+@app.route('/sc_student', methods=['POST'])
+def sc_student():
+    if 'loggedin' not in session:
+        return redirect(url_for('login'))
+
+    data = request.form
+    file = request.files.get('photo')
+    photo_filename = None
+
+    if file and file.filename != '':
+        os.makedirs('static/uploads/students', exist_ok=True) 
+        photo_filename = secure_filename(file.filename)
+        file.save(os.path.join('static/uploads/students', photo_filename))
+
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute("""
+        INSERT INTO sms_students (
+            name, gender, dob, photo, mobile, email, current_address, permanent_address,
+            father_name, father_mobile, father_occupation, mother_name, mother_mobile,
+            admission_no, roll_no, class, section, stream, hostel, admission_date,
+            category, academic_year
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """, (
+        data['name'], data['gender'], data['dob'], photo_filename,
+        data['mobile'], data['email'], data['current_address'], data['permanent_address'],
+        data['father_name'], data['father_mobile'], data['father_occupation'],
+        data['mother_name'], data['mother_mobile'], data['admission_no'], data['roll_no'],
+        data['class'], data['section'], data.get('stream'), data.get('hostel'),
+        data['admission_date'], data.get('category'), data['academic_year']
+    ))
+
+    db.commit()
+
+    flash("Student created successfully!", "success")
+    return redirect(url_for('student'))
+
+
 
 @app.route("/edit_student", methods=['GET'])
 def edit_student():

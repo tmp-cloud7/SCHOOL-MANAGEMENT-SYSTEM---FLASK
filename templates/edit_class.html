@@ -37,7 +37,7 @@
 							<input type="hidden" name="classid" id="classid" value="{{class.id}}" />
 							<input type="hidden" name="action" id="action" value="updateClass" />
 							<input type="submit" name="save" id="save" class="btn btn-info" value="Save" />
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<a href="{{ url_for('classes') }}" class="btn btn-secondary">Cancel</a>
 						</div>						
 					</form>
 				{% endfor %}						
