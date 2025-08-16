@@ -314,7 +314,7 @@ def student():
     if 'loggedin' in session:
         cursor = get_db().cursor()
         cursor.execute('''
-            SELECT s.id, s.admission_no, s.roll_no, s.name, s.photo, 
+            SELECT s.id, s.admission_no, s.roll_no, s.name, s.father_name, s.photo, 
                    c.name AS class, sec.section 
             FROM sms_students s 
             LEFT JOIN sms_section sec ON sec.section_id = s.section 

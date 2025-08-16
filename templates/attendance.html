@@ -37,7 +37,15 @@
 												</select>
 											<span class="text-danger"></span>
 										</div>
-									</div> 									
+									</div> 
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="attendance_date">Date</label><small class="req"> *</small>
+											<input type="date" id="attendance_date" name="attendance_date" class="form-control" required 
+												value="{{ attendanceDate if attendanceDate else '' }}">
+										</div>
+									</div>
+									
 								</div>
 							</div>
 							<div class="box-footer">
