@@ -7,9 +7,9 @@ from datetime import date
 import os
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Set a secure secret key
+app.secret_key = os.urandom(24) 
 
-# Database connection
+# Database connection  
 def get_db():
     if 'db' not in g:
         g.db = pymysql.connect(
@@ -513,46 +513,7 @@ def attendance():
         return render_template("attendance.html", classes=classes, sections=sections)
     return redirect(url_for('login'))
 
-# @app.route("/getClassAttendance", methods =['GET', 'POST'])
-# def getClassAttendance():
-#     if 'loggedin' in session:  
-#         if request.method == 'POST' and 'classid' in request.form and 'sectionid' in request.form:
-        
-#             classid = request.form['classid']
-#             sectionid = request.form['sectionid']
-            
-#             cursor = get_db().cursor()   
-            
-#             cursor.execute('SELECT * FROM sms_classes')
-#             classes = cursor.fetchall() 
-            
-#             cursor.execute('SELECT * FROM sms_section')
-#             sections = cursor.fetchall() 
 
-#             currentDate = date.today().strftime('%Y/%m/%d')
-                     
-#             # cursor.execute('SELECT s.id, s.name, s.photo, s.gender, s.dob, s.mobile, s.email, s.current_address, s.father_name, s.mother_name,s.admission_no, s.roll_no, s.admission_date, s.academic_year, a.attendance_status, a.attendance_date FROM sms_students as s LEFT JOIN sms_attendance as a ON s.id = a.student_id WHERE s.class = '+classid+' AND s.section = '+sectionid)  
-#             cursor.execute(
-#                                 '''
-#                                 SELECT s.id, s.name, s.photo, s.gender, s.dob, s.mobile, s.email, 
-#                                     s.current_address, s.father_name, s.mother_name, 
-#                                     s.admission_no, s.roll_no, s.admission_date, 
-#                                     s.academic_year, a.attendance_status, a.attendance_date 
-#                                 FROM sms_students AS s 
-#                                 LEFT JOIN sms_attendance AS a 
-#                                     ON s.id = a.student_id 
-#                                 WHERE s.class = %s AND s.section = %s
-#                                 ''', 
-#                                 (classid, sectionid)
-#                             )
-            
-#             students = cursor.fetchall()   
-                      
-#             return render_template("attendance.html", classes = classes, sections = sections, students = students, classId = classid, sectionId = sectionid)        
-#         elif request.method == 'POST':
-#             msg = 'Please fill out the form field !'        
-#         return redirect(url_for('attendance'))        
-#     return redirect(url_for('login')) 
 
 @app.route("/getClassAttendance", methods=['GET', 'POST'])
 def getClassAttendance():
@@ -602,46 +563,7 @@ def getClassAttendance():
         return redirect(url_for('attendance'))        
     return redirect(url_for('login'))
 
-# @app.route("/saveAttendance", methods=['POST'])
-# def saveAttendance():
-#     if 'loggedin' in session:
-#         cursor = get_db().cursor()
 
-#         classid = request.form['att_classid']
-#         sectionid = request.form['att_sectionid']
-#         attendance_date = request.form['att_date']
-
-#         # Get all students in the class/section
-#         cursor.execute(
-#             "SELECT id FROM sms_students WHERE class = %s AND section = %s",
-#             (classid, sectionid)
-#         )
-#         students = cursor.fetchall()
-
-#         for student in students:
-#             student_id = student['id']
-
-#             # Each student's radio button name is attendencetype_<student_id>
-#             field_name = f"attendencetype_{student_id}"
-#             attendance_status = request.form.get(field_name)
-
-#             if attendance_status:
-#                 # Insert or update attendance
-#                 cursor.execute(
-#                     '''
-#                     INSERT INTO sms_attendance 
-#                         (student_id, class_id, section_id, attendance_status, attendance_date)
-#                     VALUES (%s, %s, %s, %s, %s)
-#                     ON DUPLICATE KEY UPDATE attendance_status = VALUES(attendance_status)
-#                     ''',
-#                     (student_id, classid, sectionid, attendance_status, attendance_date)
-#                 )
-
-#         get_db().commit()
-#         flash("Attendance saved successfully!", "success")
-#         return redirect(url_for('attendance'))
-
-#     return redirect(url_for('login'))
 
 @app.route("/saveAttendance", methods=['POST'])
 def saveAttendance():
@@ -682,23 +604,7 @@ def saveAttendance():
 
     return redirect(url_for('login'))
 
-
-
-    
-
-# @app.route("/report", methods =['GET', 'POST'])
-# def report():
-#     if 'loggedin' in session:  
-#         cursor = get_db().cursor()
-        
-#         cursor.execute('SELECT * FROM sms_classes')
-#         classes = cursor.fetchall() 
-        
-#         cursor.execute('SELECT * FROM sms_section')
-#         sections = cursor.fetchall()
-        
-#         return render_template("report.html", classes = classes, sections = sections)
-#     return redirect(url_for('login'))     
+   
 @app.route("/report", methods=['GET', 'POST'])
 def report():
     if 'loggedin' in session:
@@ -746,13 +652,6 @@ def report():
 
     return redirect(url_for('login'))
 
-
-
-# ================= 404 Error Handler ====================
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
 
 # ================= MAIN ====================
 
