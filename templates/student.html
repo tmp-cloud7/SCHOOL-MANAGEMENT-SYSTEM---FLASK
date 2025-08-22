@@ -3,23 +3,25 @@
 <body>
  {% include 'top_menus.html' %}
   <div class="container">        
-      {% include 'left_menus.html' %}    
+      {% include 'left_menus.html' %}  
 	  <div class="content">
-		<div class="container-fluid">   	
+		<div class="container-fluid">   
 			<div class="row">
-				<a href="#"><strong><span class="ti-crown"></span> Student Section</strong></a>
-				<hr>		
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-md-10">
-							<h3 class="panel-title"></h3>
+				<a href="#"><strong><span class="ti-user"></span> Students Section</strong></a>
+				<hr>
+				
+					<div class="panel-heading position-relative">
+						<div class="row">
+							<div class="col-md-10">
+								<h3 class="panel-title">Students</h3>
+							</div>
 						</div>
-						<div class="col-md-2" align="right">
-							<a href="{{ url_for('create_student') }}" class="btn btn-success btn-xs">Student Admission</a>
-						</div>
-
+						<a href="{{ url_for('create_student') }}" class="btn btn-success admission-btn">
+							<i class="glyphicon glyphicon-plus"></i> Student Admission
+						</a>
 					</div>
 				</div>
+
 				<table id="studentList" class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -53,6 +55,8 @@
 					</tbody>
 				</table>
 			</div>
+		</div>	
+	</div>
 		</div>	
 	</div>
   </div>
