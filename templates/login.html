@@ -4,7 +4,7 @@
   {% include 'top_menus.html' %}  	
     <div class="row row-offcanvas row-offcanvas-left">      
       <div class="col-md-9 col-lg-10 main"> 
-		<h2>User Login</h2>
+		<h2>Admin Login</h2>
 		<form action="{{ url_for('login') }}" method="post">
 			{% if mesage is defined and mesage %}
 				<div class="alert alert-warning">{{ mesage }}</div>
